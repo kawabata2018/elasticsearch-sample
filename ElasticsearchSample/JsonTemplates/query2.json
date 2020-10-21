@@ -1,0 +1,10 @@
+{ 
+  "query": {
+    "bool": {
+      "must": [
+        {"match": {"company_id": "id"} },
+        {"match": {"text": "keyword"} }
+      ]
+    }
+  }
+}
