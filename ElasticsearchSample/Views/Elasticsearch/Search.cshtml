@@ -1,4 +1,4 @@
-﻿@model ElasticsearchSample.Models.InputModel
+﻿@model IEnumerable<ElasticsearchSample.Models.DocWithHglModel>
 @{
     ViewData["Title"] = "検索結果";
 }
@@ -6,6 +6,16 @@
 <div class="container">
     <h3>@ViewData["Title"]</h3>
     <div>
-        <p>@ViewData["searchResult"]</p>
+        @if (Model != null)
+        {
+            @foreach (var doc in Model)
+            {
+                <hr />
+                <span>@Html.DisplayFor(modelItem => doc.DocumentId)</span>
+                <span>@Html.DisplayFor(modelItem => doc.DocumentName)</span>
+                <br />
+                <p>@Html.DisplayFor(modelItem => doc.TextWithHgl)</p>
+            }
+        }
     </div>
 </div>
