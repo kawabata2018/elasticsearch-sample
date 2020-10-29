@@ -10,11 +10,12 @@
         {
             @foreach (var doc in Model)
             {
-                <hr />
-                <span>@Html.DisplayFor(modelItem => doc.DocumentId)</span>
-                <span>@Html.DisplayFor(modelItem => doc.DocumentName)</span>
-                <br />
-                <p>@Html.DisplayFor(modelItem => doc.TextWithHgl)</p>
+                <div class="m-3 p-3 bg-light border border-secondary">
+                    <span class="font-weight-bold">@Html.DisplayFor(modelItem => doc.DocumentId)</span>
+                    <span class="font-weight-bold">@Html.DisplayFor(modelItem => doc.DocumentName)</span>
+                    <hr />
+                    <p class="">@Html.Raw(doc.TextWithHgl.Replace("<em>", "<span class='bg-danger text-white'>").Replace("</em>", "</span>"))</p>
+                </div>
             }
         }
     </div>
