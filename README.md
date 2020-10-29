@@ -130,4 +130,4 @@ Visual Studioで起動
 <img src="./images/search.png">
 
 Elasticsearchからのレスポンスを整形して表示
-<img src="./images/result-em.png">
+<img src="./images/result-danger.png">
