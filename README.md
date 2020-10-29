@@ -129,5 +129,5 @@ Visual Studioで起動
 検索するクエリの情報を入力
 <img src="./images/search.png">
 
-Elasticsearchからの生レスポンス
-<img src="./images/result.png">
+Elasticsearchからのレスポンスを整形して表示
+<img src="./images/result-danger.png">

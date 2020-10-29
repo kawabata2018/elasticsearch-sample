@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using ElasticsearchSample.Models;
@@ -28,7 +29,7 @@ namespace ElasticsearchSample.Controllers
             var relativeUri = "sample_esg/_search";
             var requestUri = new Uri(baseUri, relativeUri);
             
-            var jsonFilePath = Path.Combine("JsonTemplates", "query2.json");
+            var jsonFilePath = Path.Combine("JsonTemplates", "query3.json");
             var jsonString = System.IO.File.ReadAllText(jsonFilePath);
             dynamic jsonObject = JsonConvert.DeserializeObject(jsonString);
             jsonObject["query"]["bool"]["must"][0]["match"]["company_id"] = inputModel.CompanyId;
@@ -45,14 +46,27 @@ namespace ElasticsearchSample.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    ViewData["searchResult"] = responseContent;
+                    Console.WriteLine(responseContent);
+                    dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
+                    var documentsWithHighlight = new List<DocWithHglModel>();
+                    foreach (var d in responseObject["hits"]["hits"])
+                    {
+                        documentsWithHighlight.Add(
+                            new DocWithHglModel()
+                            {
+                                DocumentId = d["_source"]["document_id"],
+                                DocumentName = d["_source"]["document_name"],
+                                TextWithHgl = d["highlight"]["text"][0]
+                            }
+                        );
+                    }
+
+                    return View(documentsWithHighlight);
                 }
                 else
                 {
                     return RedirectToAction(nameof(Index));
                 }
-
-                return View();
             }
             catch
             {
